@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Sign Up</title>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+  <div class="w-full max-w-md bg-white p-8 rounded-2xl shadow-xl">
+    <h2 class="text-2xl font-bold mb-6 text-center">Create Account</h2>
+
+    <form id="signupForm" class="space-y-4">
+      <div>
+        <label class="block text-medium mb-1">First Name</label>
+        <input type="text" id="firstName" class="w-full p-2 border rounded-xl" />
+        <p class="text-red-500 text-medium hidden" id="firstNameError">First name is required.</p>
+      </div>
+
+      <div>
+        <label class="block text-medium mb-1">Last Name</label>
+        <input type="text" id="lastName" class="w-full p-2 border rounded-xl" />
+        <p class="text-red-500 text-medium hidden" id="lastNameError">Last name is required.</p>
+      </div>
+
+      <div>
+        <label class="block text-medium mb-1">Email</label>
+        <input type="email" id="email" class="w-full p-2 border rounded-xl" />
+        <p class="text-red-500 text-medium hidden" id="emailError">Enter a valid email.</p>
+      </div>
+
+      <div>
+        <label class="block text-medium mb-1">Password</label>
+        <input type="password" id="password" class="w-full p-2 border rounded-xl" />
+        <p class="text-red-500 text-medium hidden" id="passwordError">Password must be at least 6 characters.</p>
+      </div>
+
+      <div>
+        <label class="block text-medium mb-1">Mobile</label>
+        <input type="text" id="mobile" class="w-full p-2 border rounded-xl" />
+        <p class="text-red-500 text-medium hidden" id="mobileError">Enter a valid mobile number.</p>
+      </div>
+
+      <button type="submit" id="submitBtn" class="w-full bg-blue-600 text-white p-2 rounded-xl hover:bg-blue-700 transition disabled:opacity-50">
+        Sign Up
+      </button>
+
+      <p id="loadingMsg" class="text-center text-blue-600 font-medium hidden">Form is Processing...</p>
+      <p id="successMsg" class="text-center text-green-600 font-medium hidden">Successfully signed up for guessing game!</p>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById('signupForm');
+    const loadingMsg = document.getElementById('loadingMsg');
+    const successMsg = document.getElementById('successMsg');
+    const submitBtn = document.getElementById('submitBtn');
+    let timeId 
+    const fields = [
+      { id: 'firstName', errorId: 'firstNameError', validate: v => v.trim() !== '' },
+      { id: 'lastName', errorId: 'lastNameError', validate: v => v.trim() !== '' },
+      { id: 'email', errorId: 'emailError', validate: v => /.+@.+\..+/.test(v) },
+      { id: 'password', errorId: 'passwordError', validate: v => v.length >= 6 },
+      { id: 'mobile', errorId: 'mobileError', validate: v => /^(\+?8801[3-9][0-9]{8}|01[3-9][0-9]{8})$/.test(v) },
+      
+    ];
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      let valid = true;
+      successMsg.classList.add('hidden');
+
+      fields.forEach(f => { 
+        const value = document.getElementById(f.id).value;
+        const errorEl = document.getElementById(f.errorId);
+        console.log(document.getElementById(f.id))
+        if (!f.validate(value)) {
+          errorEl.classList.remove('hidden');
+          valid = false;
+        } else {
+          errorEl.classList.add('hidden');
+        }
+      });
+
+      if (!valid) return;
+
+      loadingMsg.classList.remove('hidden');
+      submitBtn.disabled = true;
+
+      timeId = setTimeout(() => {
+        loadingMsg.classList.add('hidden');
+        successMsg.classList.remove('hidden');
+        submitBtn.disabled = false;
+        form.reset();
+      }, 1500);
+    });
+    clearTimeout(timeId)
+  </script>
+</body>
+</html>

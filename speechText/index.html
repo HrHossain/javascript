@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <title>Real-time Speech to Text App</title>
+  </head>
+  <style>
+    :root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: radial-gradient(
+      circle at 100%,
+      rgba(3, 6, 21, 0.9) 15%,
+      rgba(189, 205, 226, 0.5) 5%,
+      rgba(7, 9, 22, 0.9) 15%
+    ),
+    url('./public/chevron.png') center/cover;
+
+  height: 100vh;
+  padding: 40px 0;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 15px;
+}
+
+h1 {
+  color: #fff;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+}
+
+.btn-wrapper {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+button {
+  display: flex;
+  align-items: center;
+  column-gap: 5px;
+  border: none;
+  cursor: pointer;
+  padding: 12px 24px;
+  border-radius: 3px;
+  font-weight: 600;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  transition: opacity 400ms ease-in-out;
+}
+
+button:disabled {
+  opacity: 0.47;
+  cursor: default;
+}
+
+button:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+button > svg {
+  height: 1rem;
+}
+
+.btn-start {
+  background-color: #ff2c4f;
+  color: #fff;
+}
+
+.btn-stop {
+  background-color: rgb(7, 2, 44);
+  color: #fff;
+}
+
+.result {
+  background-color: #fff;
+  width: 100%;
+  min-height: 200px;
+  padding: 10px;
+  border-radius: 3px;
+  margin-top: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  text-transform: capitalize;
+}
+
+.result:empty {
+  display: none;
+}
+
+.hidden {
+  display: none !important;
+}
+
+@media screen and (min-width: 768px) {
+  h1 {
+    font-size: 3.125rem;
+    text-transform: capitalize;
+  }
+
+  .container {
+    padding: 0 30px;
+  }
+
+  .result {
+    padding: 15px;
+  }
+}
+  </style>
+  <body>
+    <div class="container">
+      <h1>Real-time Stt App</h1>
+
+      <div class="btn-wrapper">
+        <button id="startBtn" class="btn-start">
+          <svg viewBox="0 0 100 100" class="hidden">
+            <!-- Outer circle -->
+            <circle
+              cx="50"
+              cy="50"
+              r="40"
+              stroke="#ccc"
+              stroke-width="5"
+              fill="none"
+            />
+
+            <!-- Inner circle indicating recording -->
+            <circle
+              cx="50"
+              cy="50"
+              r="30"
+              stroke="#ccc"
+              stroke-width="5"
+              fill="none"
+            >
+              <animate
+                attributeName="r"
+                values="30; 25; 30"
+                dur="1.5s"
+                repeatCount="indefinite"
+              />
+            </circle>
+
+            <!-- Record icon in the center -->
+            <circle cx="50" cy="50" r="5" fill="#ccc" />
+          </svg>
+
+          <span> Start Recording </span>
+        </button>
+        <button id="stopBtn" class="btn-stop" disabled>Stop Recording</button>
+      </div>
+
+      <div id="result" class="result"></div>
+    </div>
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>

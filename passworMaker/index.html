@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Maker</title>
+</head>
+<style>
+    * {
+  box-sizing: border-box;
+}
+
+#input, #btn {
+  box-sizing: border-box;
+}
+    .display{
+        display: flex;
+        flex-direction:column;
+        justify-content: center;
+        align-items: center;
+        height:100vh;
+        
+    }
+    #input{
+        width: 400px;
+        padding: 10px;
+        font-size: 25px;
+    }
+     #btn{
+        width: 400px;
+        padding: 10px;
+        margin-top: 10px;
+        font-size: 25px;
+        background-color: yellowgreen;
+    }
+    input[type="range"]{
+        width: 400px;
+        padding: 10px;
+        font-size: 25px;
+    }
+</style>
+<body>
+    <div class="display">
+        <input id="input" value="" placeholder="Generate password">
+        <button id="btn">generate</button>
+        <input type="range" id="range" max="20" min="0" value="16">
+
+    </div>
+    <script src="./app.js"></script>
+</body>
+</html>
