@@ -64,7 +64,7 @@
       { id: 'mobile', errorId: 'mobileError', validate: v => /^(\+?8801[3-9][0-9]{8}|01[3-9][0-9]{8})$/.test(v) },
       
     ];
-
+    const formValues = {};
     form.addEventListener('submit', (e) => {
       e.preventDefault();
 
@@ -73,6 +73,7 @@
 
       fields.forEach(f => { 
         const value = document.getElementById(f.id).value;
+        formValues[f.id] = document.getElementById(f.id).value.trim();
         const errorEl = document.getElementById(f.errorId);
         console.log(document.getElementById(f.id))
         if (!f.validate(value)) {
@@ -92,9 +93,16 @@
         loadingMsg.classList.add('hidden');
         successMsg.classList.remove('hidden');
         submitBtn.disabled = false;
+        sendTo(formValues)
         form.reset();
       }, 1500);
     });
+    function sendTo(data){
+      if(data){
+      localStorage.setItem("user",JSON.stringify(data))
+      window.location.href="http://127.0.0.1:5500/guessingGame/login.html"
+    }
+    }
     clearTimeout(timeId)
   </script>
 </body>

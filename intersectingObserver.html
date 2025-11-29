@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Tailwind Intersection Observer Demo</title>
+
+  <style>
+    .hidden-section {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 1s ease;
+    }
+    .show-section {
+      opacity: 1;
+      transform: translateY(0px);
+    }
+  </style>
+</head>
+
+<body class="bg-gray-100">
+
+  <!-- Header -->
+  <div class="h-screen flex items-center justify-center bg-blue-600 text-white text-4xl font-bold">
+    Scroll Down 👇
+  </div>
+
+  <!-- The section that will animate -->
+  <div class="hidden-section max-w-xl mx-auto mt-20 p-10 bg-white rounded-2xl shadow-xl text-center">
+    <h2 class="text-2xl font-semibold mb-3">Intersection Observer Triggered!</h2>
+    <p class="text-gray-700">
+      এই সেকশনটি স্ক্রিনে আসার সাথে সাথেই fade-in হয়েছে।
+    </p>
+  </div>
+
+  <!-- Some extra space -->
+  <div class="h-[500px]"></div>
+
+  <script>
+    const target = document.querySelector('.hidden-section');
+
+    const observer = new IntersectionObserver((entries) => {
+      const info = entries[0];
+      console.log(info)
+      if (info.isIntersecting) {
+        console.log("lofd")
+        target.classList.add('show-section');
+          // only animate once
+      }
+
+      
+    });
+
+    observer.observe(target);
+  </script>
+
+</body>
+</html>

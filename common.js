@@ -123,3 +123,7 @@ count = 5;
 useEffect(() => {
   console.log("Effect ran after update! Count =", count);
 }, [count]);
+
+
+[one,two] = [1,2]
+console.log(one)
