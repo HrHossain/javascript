@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Debounce Search</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    #print ul {
+      padding-left: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>JS Debounce Search</h1>
+
+  <input id="search" type="search" placeholder="Search items...">
+  <div id="print">Start typing to search...</div>
+
+  <script>
+    // ---------- Data ----------
+    const items = [
+      "apple",
+      "banana",
+      "grape",
+      "orange",
+      "pineapple",
+      "watermelon"
+    ];
+
+    // ---------- Search Filter ----------
+    function searchArray(array, query) {
+      return array.filter(item =>
+        item.toLowerCase().includes(query.toLowerCase())
+      );
+    }
+
+    // ---------- Debounce Utility ----------
+    function debounce(fn, delay) {
+      let timer;
+      return function (...args) {
+        clearTimeout(timer);
+        timer = setTimeout(() => fn.apply(this,args), delay);
+      };
+    }
+
+    // ---------- DOM Elements ----------
+    const input = document.getElementById("search");
+    const printing = document.getElementById("print");
+
+    // ---------- Search Handler (Debounced) ----------
+    const handleSearch = debounce((value) => {
+      const results = searchArray(items, value);
+
+      printing.innerHTML = `
+        <ul>
+          ${results.map(v => `<li>${v}</li>`).join("")}
+        </ul>
+      `;
+    }, 500);
+
+    // ---------- Input Listener ----------
+    input.addEventListener("input", (e) => {
+      handleSearch(e.target.value);
+    });
+
+    function throttle(func,limit){
+        let lastCall = 0;
+        return function (...args){
+            const now = date.now()
+            if(now - lastCall >= limit){
+                lastCall = now
+                func.apply(this,args)
+            }
+        }
+    }
+  </script>
+</body>
+</html>

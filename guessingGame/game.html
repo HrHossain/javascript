@@ -1,11 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Random Number Generator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <h1>Game board</h1>
+<body class="bg-gray-100 h-screen flex items-center justify-center">
+  <div id="generateBox" class="bg-white shadow-xl p-8 rounded-2xl w-80 text-center space-y-4">
+    <h2 class="text-2xl font-semibold text-gray-800">Generate Random Number</h2>
+
+    <input id="maxValue" type="number" placeholder="Enter max value" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" />
+
+    <button id="generateBtn" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">Generate Number</button>
+
+    <p id="result" class="text-xl font-bold text-blue-700"></p>
+  </div>
+
+  <dialog id="modal">
+   <div class="bg-white shadow-xl p-8 rounded-2xl w-80 text-center space-y-4">
+    <h2 class="text-2xl font-semibold text-gray-800">Generate Random Number</h2>
+
+    <input id="guessValue" type="number" placeholder="Enter max value" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" />
+
+    <button id="tryBtn" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">Guess Number</button>
+
+    
+  </div>
+
+  </dialog>
+
+  <script>
+    const generateBox = document.getElementById("generateBox");
+    const input = document.getElementById("maxValue");
+    const btn = document.getElementById("generateBtn");
+    const result = document.getElementById("result");
+    const modal = document.getElementById("modal")
+    const guessValue = document.getElementById("guessValue")
+    const tryBtn = document.getElementById("tryBtn")
+    debugger
+    btn.addEventListener("click", () => {
+        const randomValue = Math.floor(Math.random() * 10);
+      input.value = randomValue === 0 ? randomValue + 1 : randomValue
+      debugger
+      display ="none"
+      
+    });
+    
+  </script>
 </body>
 </html>

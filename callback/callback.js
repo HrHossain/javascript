@@ -103,9 +103,11 @@ function step10(cb,result,number){
 
 function save1(cb,number1,number2){
     let r1 = number1 + number2
+    debugger
     setTimeout(()=>{
         console.log("save 1 " + r1,number1)
         cb(r1,number1)
+        debugger
     },800)
 }
 function save2(cb,number1,number2){
@@ -113,6 +115,7 @@ function save2(cb,number1,number2){
     setTimeout(()=>{
         console.log("save 2 " + r1,number1)
         cb(r1,number1)
+        debugger
     },900)
 }
 function save3(cb,number1,number2){
@@ -120,13 +123,27 @@ function save3(cb,number1,number2){
     setTimeout(()=>{
         console.log("save 3 " + r1,number1)
         cb(r1,number1)
-    },1800)
+        debugger
+    },800)
+}
+function save4(cb,number1,number2){
+    let r1 = number1 + number2
+    debugger
+    setTimeout(()=>{
+        console.log("save 4 " + r1,number1)
+        cb(r1,number1)
+        debugger
+    },800)
 }
 
 save1((r1,n1)=>{
     save2((r1,n1)=>{
         save3((r1,n1)=>{
-            console.log("finally gotted",r1,n1)
+            save4((r1,n1)=>{
+               setTimeout(()=>{
+                 console.log("finally gotted total value",r1)
+               },1100)
+            },r1,n1)
         },r1,n1)
     },r1,n1)
 },10,20)
