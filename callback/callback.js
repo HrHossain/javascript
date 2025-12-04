@@ -136,14 +136,34 @@ function save4(cb,number1,number2){
     },800)
 }
 
-save1((r1,n1)=>{
-    save2((r1,n1)=>{
-        save3((r1,n1)=>{
-            save4((r1,n1)=>{
-               setTimeout(()=>{
-                 console.log("finally gotted total value",r1)
-               },1100)
-            },r1,n1)
-        },r1,n1)
-    },r1,n1)
-},10,20)
+// save1((r1,n1)=>{
+//     save2((r1,n1)=>{
+//         save3((r1,n1)=>{
+//             save4((r1,n1)=>{
+//                setTimeout(()=>{
+//                  console.log("finally gotted total value",r1)
+//                },1100)
+//             },r1,n1)
+//         },r1,n1)
+//     },r1,n1)
+// },10,20)
+
+
+function number(func){
+
+    let result = 10;
+    func()
+    
+        console.log(result)
+   
+
+}
+
+number(()=>{
+    
+     setTimeout(()=>{
+           console.log("I am here from callback")
+     })
+    
+    
+})

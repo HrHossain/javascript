@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PizzaHub — Demo</title>
+  <!-- Tailwind via CDN (for quick prototypes) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* small custom tweaks */
+    .glass { background: rgba(255,255,255,0.06); backdrop-filter: blur(6px); }
+  </style>
+</head>
+<body class="bg-gradient-to-b from-gray-900 to-gray-800 min-h-screen text-gray-100 font-sans">
+  <header class="p-6 flex items-center justify-between max-w-6xl mx-auto">
+    <h1 class="text-2xl font-extrabold flex items-center gap-3">
+      <span class="w-10 h-10 rounded-full bg-red-500 flex items-center justify-center text-white font-bold">🍕</span>
+      <span>PizzaHub</span>
+    </h1>
+    <div class="flex items-center gap-4">
+      <button id="cartBtn" class="relative px-4 py-2 bg-yellow-400 text-gray-900 rounded-lg font-semibold shadow">Cart <span id="cartCount" class="ml-2 bg-white text-black px-2 rounded-full text-sm">0</span></button>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+    <!-- Sidebar: Filters / Cart summary -->
+    <aside class="md:col-span-1 glass p-4 rounded-2xl">
+      <h2 class="text-lg font-semibold mb-2">Filters</h2>
+      <div class="flex gap-2 mb-4">
+        <button class="filterBtn px-3 py-1 rounded-lg bg-gray-700">All</button>
+        <button class="filterBtn px-3 py-1 rounded-lg">Veg</button>
+        <button class="filterBtn px-3 py-1 rounded-lg">Non-Veg</button>
+      </div>
+
+      <h3 class="text-md font-semibold mt-4">Quick cart</h3>
+      <div id="miniCart" class="mt-2 text-sm">
+        <p class="text-gray-400">No items yet — add some pizzas!</p>
+      </div>
+    </aside>
+
+    <!-- Menu -->
+    <section id="menu" class="md:col-span-2 glass p-6 rounded-2xl">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-xl font-bold">Menu</h2>
+        <div>
+          <input id="search" placeholder="Search pizzas..." class="px-3 py-2 rounded-lg bg-gray-900 placeholder-gray-400" />
+        </div>
+      </div>
+
+      <div id="menuGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <!-- items rendered here -->
+      </div>
+
+      <div id="loading" class="mt-4 text-gray-400">Loading menu...</div>
+
+    </section>
+  </main>
+
+  <!-- Order modal -->
+  <div id="orderModal" class="fixed inset-0 hidden items-center justify-center bg-black/60 p-4">
+    <div class="bg-gray-900 rounded-2xl p-6 w-full max-w-lg">
+      <h3 class="text-xl font-bold mb-2">Checkout</h3>
+      <div id="orderSummary" class="text-sm text-gray-300 mb-4"></div>
+      <div class="flex gap-2">
+        <button id="confirmOrder" class="px-4 py-2 bg-green-600 rounded-lg">Place order</button>
+        <button id="closeModal" class="px-4 py-2 bg-gray-700 rounded-lg">Cancel</button>
+      </div>
+      <div id="orderFeedback" class="mt-3 text-sm"></div>
+    </div>
+  </div>
+
+  <footer class="max-w-6xl mx-auto p-6 text-center text-gray-500 text-sm">
+    Demo app — uses raw Promises to simulate network calls.
+  </footer>
+
+  <script>
+    /**************************************************************************
+     * PizzaHub demo
+     * - Uses Tailwind for UI (via CDN)
+     * - Uses raw JavaScript Promises to simulate fetching menu and placing orders
+     * - Single-file demo: open in any browser
+     ***************************************************************************/
+
+    // --- Sample data: could be loaded from server in real app ---
+    const SAMPLE_MENU = [
+      { id: 1, name: 'Margherita', desc: 'Classic tomato, mozzarella, basil', price: 6.99, type: 'Veg' },
+      { id: 2, name: 'Pepperoni', desc: 'Pepperoni & extra cheese', price: 8.99, type: 'Non-Veg' },
+      { id: 3, name: 'Veggie Delight', desc: 'Bell peppers, olives, onions', price: 7.99, type: 'Veg' },
+      { id: 4, name: 'BBQ Chicken', desc: 'BBQ sauce & grilled chicken', price: 9.49, type: 'Non-Veg' },
+      { id: 5, name: 'Hawaiian', desc: 'Ham & pineapple', price: 8.49, type: 'Non-Veg' },
+      { id: 6, name: 'Four Cheese', desc: 'Mozzarella, cheddar, parmesan, gorgonzola', price: 9.99, type: 'Veg' }
+    ];
+
+    // --- Utilities: raw Promises (no fetch) ---
+
+    // Simulate fetching menu from server
+    function fetchMenu() {
+      return new Promise((resolve, reject) => {
+        // simulate network delay
+        setTimeout(() => {
+          // 95% success chance
+          if (Math.random() < 0.95) resolve(SAMPLE_MENU.slice());
+          else reject(new Error('Network error while fetching menu'));
+        }, 600);
+      });
+    }
+
+    // Simulate placing an order
+    function placeOrder(order) {
+      return new Promise((resolve, reject) => {
+        console.log('Placing order...', order);
+        setTimeout(() => {
+          // 85% success chance
+          if (Math.random() < 0.85) resolve({ orderId: 'PH' + Date.now(), status: 'confirmed' });
+          else reject(new Error('Payment failed. Try again.'));
+        }, 1200);
+      });
+    }
+
+    // --- App state ---
+    let menu = [];
+    let cart = {}; // {id: qty}
+
+    // DOM refs
+    const menuGrid = document.getElementById('menuGrid');
+    const loading = document.getElementById('loading');
+    const cartBtn = document.getElementById('cartBtn');
+    const cartCount = document.getElementById('cartCount');
+    const miniCart = document.getElementById('miniCart');
+    const orderModal = document.getElementById('orderModal');
+    const orderSummary = document.getElementById('orderSummary');
+    const confirmOrder = document.getElementById('confirmOrder');
+    const closeModal = document.getElementById('closeModal');
+    const orderFeedback = document.getElementById('orderFeedback');
+    const searchInput = document.getElementById('search');
+
+    // --- Rendering functions ---
+    function renderMenu(list) {
+      menuGrid.innerHTML = '';
+      if (!list.length) {
+        menuGrid.innerHTML = '<p class="text-gray-400">No pizzas found.</p>';
+        return;
+      }
+      list.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'p-4 rounded-xl bg-gray-900 border border-gray-800';
+        card.innerHTML = `
+          <div class="flex items-start gap-4">
+            <div class="w-20 h-20 rounded-lg bg-gradient-to-br from-red-700 to-red-500 flex items-center justify-center text-3xl">🍕</div>
+            <div class="flex-1">
+              <h3 class="font-semibold text-lg">${escapeHtml(item.name)}</h3>
+              <p class="text-sm text-gray-400">${escapeHtml(item.desc)}</p>
+              <div class="mt-3 flex items-center justify-between">
+                <div class="text-yellow-400 font-bold">$${item.price.toFixed(2)}</div>
+                <div class="flex items-center gap-2">
+                  <button data-id="${item.id}" class="addBtn px-3 py-1 rounded-lg bg-green-600 text-sm">Add</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+        menuGrid.appendChild(card);
+      });
+
+      // attach add button listeners
+      document.querySelectorAll('.addBtn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = Number(btn.dataset.id);
+          addToCart(id);
+        });
+      });
+    }
+
+    function renderMiniCart() {
+      const entries = Object.entries(cart);
+      if (!entries.length) {
+        miniCart.innerHTML = '<p class="text-gray-400">Your cart is empty.</p>';
+        cartCount.textContent = '0';
+        return;
+      }
+      cartCount.textContent = entries.reduce((s,[,q])=>s+q,0);
+      miniCart.innerHTML = entries.map(([id,q]) => {
+        const item = menu.find(m=>m.id===Number(id));
+        return `<div class="flex items-center justify-between py-1">
+          <div class="text-sm">${escapeHtml(item.name)} x${q}</div>
+          <div class="text-sm">$${(item.price * q).toFixed(2)}</div>
+        </div>`;
+      }).join('') + `<div class="mt-2 text-sm font-semibold">Total: $${cartTotal().toFixed(2)}</div>`;
+    }
+
+    function cartTotal() {
+      return Object.entries(cart).reduce((sum,[id,q]) => {
+        const item = menu.find(m=>m.id===Number(id));
+        return sum + (item.price * q);
+      }, 0);
+    }
+
+    // --- Cart actions ---
+    function addToCart(id) {
+      cart[id] = (cart[id] || 0) + 1;
+      renderMiniCart();
+      flashMessage('Added to cart');
+    }
+
+    function clearCart() {
+      cart = {};
+      renderMiniCart();
+    }
+
+    // --- UI helpers ---
+    function flashMessage(msg) {
+      const el = document.createElement('div');
+      el.textContent = msg;
+      el.className = 'fixed right-6 bottom-6 bg-green-600 text-black px-4 py-2 rounded-lg shadow';
+      document.body.appendChild(el);
+      setTimeout(()=> el.remove(), 1500);
+    }
+
+    function escapeHtml(str) {
+      return String(str).replace(/[&<>"]/g, s => ({ '&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;' })[s] );
+    }
+
+    // --- Events ---
+    cartBtn.addEventListener('click', () => {
+      // show modal with summary
+      const entries = Object.entries(cart);
+      if (!entries.length) {
+        flashMessage('Cart is empty');
+        return;
+      }
+      orderSummary.innerHTML = entries.map(([id,q]) => {
+        const item = menu.find(m=>m.id===Number(id));
+        return `<div class="flex justify-between py-1"><div>${escapeHtml(item.name)} x${q}</div><div>$${(item.price*q).toFixed(2)}</div></div>`;
+      }).join('') + `<div class="mt-3 font-bold">Total: $${cartTotal().toFixed(2)}</div>`;
+      orderModal.classList.remove('hidden');
+      orderModal.classList.add('flex');
+      orderFeedback.textContent = '';
+    });
+
+    closeModal.addEventListener('click', () => {
+      orderModal.classList.add('hidden');
+      orderModal.classList.remove('flex');
+    });
+
+    confirmOrder.addEventListener('click', () => {
+      // build order object
+      const items = Object.entries(cart).map(([id,q]) => ({ id: Number(id), qty: q }));
+      const order = { items, total: cartTotal(), createdAt: new Date().toISOString() };
+
+      // show processing feedback
+      orderFeedback.textContent = 'Processing order...';
+      confirmOrder.disabled = true;
+
+      // Use the raw Promise-based placeOrder function
+      placeOrder(order).then(result => {
+        orderFeedback.textContent = `Success! Order ${result.orderId} is ${result.status}.`;
+        clearCart();
+        confirmOrder.disabled = false;
+        setTimeout(()=> {
+          orderModal.classList.add('hidden');
+          orderModal.classList.remove('flex');
+        }, 1100);
+      }).catch(err => {
+        orderFeedback.textContent = 'Error: ' + err.message;
+        confirmOrder.disabled = false;
+      });
+    });
+
+    // filters
+    document.querySelectorAll('.filterBtn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const term = btn.textContent.trim();
+        if (term === 'All') renderMenu(menu);
+        else renderMenu(menu.filter(m => m.type === term));
+      });
+    });
+
+    // search
+    searchInput.addEventListener('input', (e) => {
+      const q = e.target.value.toLowerCase().trim();
+      if (!q) renderMenu(menu);
+      else renderMenu(menu.filter(m => m.name.toLowerCase().includes(q) || m.desc.toLowerCase().includes(q)));
+    });
+
+    // --- Initialize app: use fetchMenu() Promise ---
+    fetchMenu().then(data => {
+      menu = data;
+      renderMenu(menu);
+      renderMiniCart();
+      loading.style.display = 'none';
+    }).catch(err => {
+      loading.textContent = 'Failed to load menu: ' + err.message;
+    });
+
+    // small accessibility: close modal on Esc
+    window.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        orderModal.classList.add('hidden');
+        orderModal.classList.remove('flex');
+      }
+    });
+
+  </script>
+</body>
+</html>
