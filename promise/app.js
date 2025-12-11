@@ -52,7 +52,7 @@ fetchProductsCategorylist()
 
 
 // all products display
-
+const userId = 123
 function fetchProductslist(){
     productsloading.innerHTML =`<div class="flex items-center justify-center h-100">
       <div class=" spinner-3 w-10 h-10 rounded-full bg-gray-800   relative">
@@ -138,7 +138,7 @@ fetchProductslist()
                     data-original="#000000"></path>
                 </svg>
               </div>
-              <button type="button" class="text-sm font-medium px-2 cursor-pointer min-h-[36px] w-full bg-blue-600 hover:bg-blue-700 text-white tracking-wide ml-auto outline-0 border-0 rounded-sm">Add to cart</button>
+              <button onclick="window.location.href='http://127.0.0.1:5500/promise/product.html?id=${element.id}'"  type="button" class="text-sm font-medium px-2 cursor-pointer min-h-[36px] w-full bg-blue-600 hover:bg-blue-700 text-white tracking-wide ml-auto outline-0 border-0 rounded-sm">Add to cart</button>
             </div>
           </div>
         </div>`

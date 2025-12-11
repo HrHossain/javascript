@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>Ecommerce product demo</title>
+</head>
+<body>
+    <header class="shadow-md tracking-wide relative z-50">
+  <section class="py-2 bg-[#007bff] text-white text-right px-10">
+    <p class="text-sm">
+      <span class="mx-3 font-semibold">Address:</span>SWF New York 185669
+      <span class="mx-3 font-semibold">Contact No:</span>1800333665
+    </p>
+  </section>
+
+  <div class="flex flex-wrap items-center justify-between gap-4 px-10 py-3 bg-white min-h-[65px]">
+    <div id="collapseMenu"
+      class="max-lg:hidden lg:!block max-lg:before:fixed max-lg:before:bg-black max-lg:before:opacity-50 max-lg:before:inset-0 max-lg:before:z-50">
+
+      <button id="toggleClose"
+        class="lg:hidden fixed top-2 right-4 z-[100] rounded-full bg-white w-9 h-9 flex items-center justify-center border border-gray-200 cursor-pointer">
+        ❌
+      </button>
+
+      <ul
+        class="lg:flex lg:gap-x-5 max-lg:space-y-3 max-lg:fixed max-lg:bg-white max-lg:w-1/2 max-lg:min-w-[300px] max-lg:top-0 max-lg:left-0 max-lg:p-6 max-lg:h-full max-lg:shadow-md max-lg:overflow-auto z-50">
+
+        <li class="mb-6 hidden max-lg:block">
+          <a href="#"><img src="https://readymadeui.com/readymadeui.svg" class="w-36" /></a>
+        </li>
+
+        <li class="max-lg:border-b px-3 py-3"><a class="hover:text-blue-700 text-blue-700 font-medium">Home</a></li>
+        <li class="max-lg:border-b px-3 py-3"><a class="hover:text-blue-700 text-slate-900 font-medium">Team</a></li>
+        <li class="max-lg:border-b px-3 py-3"><a class="hover:text-blue-700 text-slate-900 font-medium">Feature</a></li>
+        <li class="max-lg:border-b px-3 py-3"><a class="hover:text-blue-700 text-slate-900 font-medium">Blog</a></li>
+        <li class="max-lg:border-b px-3 py-3"><a class="hover:text-blue-700 text-slate-900 font-medium">About</a></li>
+        <li class="max-lg:border-b px-3 py-3"><a class="hover:text-blue-700 text-slate-900 font-medium">Contact</a></li>
+        <li class="max-lg:border-b px-3 py-3"><a class="hover:text-blue-700 text-slate-900 font-medium">Source</a></li>
+      </ul>
+    </div>
+
+    <div class="flex max-lg:ml-auto">
+      <button id="toggleOpen" class="lg:hidden cursor-pointer">
+        <svg class="w-7 h-7" fill="#000" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3 5h14M3 10h14M3 15h14" stroke="black"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- FIXED LAYOUT STARTS HERE -->
+<div class="flex">
+
+  <!-- SIDEBAR -->
+  
+  <nav class="bg-white shadow-md border-r border-gray-200 h-screen fixed top-0 left-0 w-[250px] py-6 px-4 overflow-auto mt-[90px]">
+    <ul>
+      <li>
+        <a class="text-slate-700 font-medium text-[15px] block hover:bg-gray-100 rounded px-4 py-2">
+          <h1>Product List Category</h1>
+        </a>
+      </li>
+    </ul>
+     <div id="listLoading"></div>
+    <div id="list" class="mt-4">
+      
+    </div>
+  </nav>
+  <div id="listLError"></div>
+
+  <!-- MAIN CONTENT (PUSHED RIGHT) -->
+  <main class="ml-[250px] w-full p-4 mt-[90px]">
+    
+    <div class="p-4 mx-auto lg:max-w-6xl md:max-w-3xl">
+      <div id="productLoading"></div>
+      <div id="productList" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6"></div>
+      <div id="productError"></div>
+    </div>
+
+      <!-- Your other product cards continue… -->
+    </div>
+    </main>
+
+
+    <script type="module" src="./js/product/allproducts.js"></script>
+</body>
+</html>

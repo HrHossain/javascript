@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>this is about page</h1>
+    <script>
+        const authUser = 123
+        const params = new URLSearchParams(window.location.search)
+
+        const id = params.get("id")
+        console.log(id)
+
+        const div = document.createElement('div')
+        div.className = "w-[500px] h-[300px] bg-blue-500"
+        if(authUser === Number(id)){
+            div.innerHTML = `<p>You are authentic user in the world</p>`
+        }else{
+            div.innerHTML = `<p>You are not authentic user in the world</p>`
+        }
+
+        document.querySelector("body").append(div)
+    </script>
+</body>
+</html>

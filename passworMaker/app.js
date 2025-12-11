@@ -5,9 +5,10 @@ const range = document.getElementById("range")
 range.addEventListener("input",(e)=>{
    let rangeCount = e.target.value
   if(rangeCount < 10){
-    throw "range is not valid"
+    // btn.disabled = true
+    alert("range is not valid")
   }
-  btn.disabled = true
+  // 
   input.value = generatePassword(rangeCount)
   return;
 })
@@ -25,6 +26,7 @@ function generatePassword(length = 16) {
   let result = '';
 
   if (window.crypto && window.crypto.getRandomValues) {
+
     const randomValues = new Uint32Array(length);
     window.crypto.getRandomValues(randomValues);
     

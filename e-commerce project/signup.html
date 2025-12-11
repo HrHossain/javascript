@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>Sign up page</title>
+</head>
+<body>
+    <div class="max-w-4xl max-sm:max-w-lg mx-auto p-6 mt-6">
+      <div class="text-center mb-12 sm:mb-16">
+        <h1 class="text-3xl text-slate-900 font-bold mt-6">Sign up </h1>
+        <h6>Ecommerce</h6>
+      </div>
+
+      <form>
+        <div class="grid sm:grid-cols-2 gap-8">
+          <div class="mb-3">
+            <label class="text-slate-900 text-sm font-medium mb-2 block">First Name</label>
+            <input id="fname" name="fname" type="text" class="bg-slate-100 w-full text-slate-900 text-sm px-4 py-3 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter name" />
+            <p id="firstNameError" class="hidden text-red-600 text-sm mt-1 font-medium">First name is required</p>
+
+          </div>
+          <div class="mb-3">
+            <label class="text-slate-900 text-sm font-medium mb-2 block">Last Name</label>
+            <input id="lname" name="lname" type="text" class="bg-slate-100 w-full text-slate-900 text-sm px-4 py-3 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter last name" />
+            
+            <p id="lastNameError" class="hidden text-red-600 text-sm mt-1 font-medium">Last name is required</p>
+
+          </div>
+          <div class="mb-3">
+            <label class="text-slate-900 text-sm font-medium mb-2 block">Email Id</label>
+            <input id="email" name="email" type="text" class="bg-slate-100 w-full text-slate-900 text-sm px-4 py-3 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter email" />
+            <p id="emailError" class=" hidden text-red-600 text-sm mt-1 font-medium">Email is required</p>
+          </div>
+          <div class="mb-3">
+            <label class="text-slate-900 text-sm font-medium mb-2 block">Mobile No.</label>
+            <input id="number" name="number" type="number" class="bg-slate-100 w-full text-slate-900 text-sm px-4 py-3 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter mobile number" />
+            <p id="numberError" class="hidden text-red-600 text-sm mt-1 font-medium">Mobile number is required</p>
+          </div>
+          <div class="mb-3">
+            <label class="text-slate-900 text-sm font-medium mb-2 block">Password</label>
+            <input id="password" name="password" type="password" class="bg-slate-100 w-full text-slate-900 text-sm px-4 py-3 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter password" />
+            <p id="passwordError" class=" hidden text-red-600 text-sm mt-1 font-medium">Password at least 6 characters </p>
+          </div>
+          <div class="mb-3">
+            <label class="text-slate-900 text-sm font-medium mb-2 block">Confirm Password</label>
+            <input id="cpassword" name="cpassword" type="password" class="bg-slate-100 w-full text-slate-900 text-sm px-4 py-3 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter confirm password" />
+            <p id="cpasswordError" class="hidden text-red-600 text-sm mt-1 font-medium">Confirm password not match</p>
+          </div>
+        </div>
+
+        <div class="mt-12">
+          <button id="submitBtn" type="button" class="mx-auto block min-w-32 py-3 px-6 text-sm font-medium tracking-wider rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none cursor-pointer">
+            Sign up
+          </button>
+        </div>
+      </form>
+    </div>
+    <script src="./js/signup.js"></script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>Login page</title>
+</head>
+<body>
+    <div class="max-w-4xl max-sm:max-w-lg mx-auto p-6 mt-6">
+      <div class="text-center mb-12 sm:mb-16">
+        <h1 class="text-3xl text-slate-900 font-bold mt-6">Login </h1>
+        <h6>Ecommerce</h6>
+      </div>
+
+      <form>
+        <div class="grid grid-cols-1 gap-8 ">
+          
+          
+          <div class="mb-3">
+            <label class="text-slate-900 text-sm font-medium mb-2 block">Email Id</label>
+            <input id="email" name="email" type="text" class="bg-slate-100 w-full text-slate-900 text-sm px-4 py-3 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter email" />
+            <p id="emailError" class=" hidden text-red-600 text-sm mt-1 font-medium">Email not match</p>
+          </div>
+          
+          <div class="mb-3">
+            <label class="text-slate-900 text-sm font-medium mb-2 block">Password</label>
+            <input id="password" name="password" type="password" class="bg-slate-100 w-full text-slate-900 text-sm px-4 py-3 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter password" />
+            <p id="passwordError" class=" hidden text-red-600 text-sm mt-1 font-medium">Password wrong </p>
+          </div>
+          
+        </div>
+
+        <div class="mt-12">
+          <button id="submitBtn" type="button" class="mx-auto block min-w-32 py-3 px-6 text-sm font-medium tracking-wider rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none cursor-pointer">
+            Login
+          </button>
+        </div>
+      </form>
+    </div>
+    <script src="./js/login.js"></script>
+</body>
+</html>
