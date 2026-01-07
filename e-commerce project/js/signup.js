@@ -20,7 +20,7 @@
             {
                 id:"number",
                 errorId:"numberError",
-                validate:v=> v.trim() !== '' 
+                validate:v=> /^01[3-9][0-9]{8}$/.test(v) 
             },
             {
                 id:"password",
@@ -66,14 +66,11 @@ btn.addEventListener("click",(e)=>{
         btn.disabled = true
         setTimeout(()=>{
             localStorage.setItem("customer-register",JSON.stringify(formValue))
-           
-            return window.location.href ="http://127.0.0.1:5500/e-commerce%20project/login.html"
-            
+            window.location.href = "http://127.0.0.1:5500/e-commerce%20project/login.html"
         
-        },4000)
+        },1000)
     }
 
 
 })
 
-// && /^01[3-9][0-9]{8}$/.test(v)
