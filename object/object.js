@@ -350,6 +350,60 @@ function canIBuy(obj){
     return obj.quantity > 200 ? "ok" : "low"
 }
 
-let sexx = Object.groupBy(banglaFruits,canIBuy)
+let objfruit = Object.groupBy(banglaFruits,canIBuy)
 
-console.log(sexx)
+console.log(objfruit)
+
+const products = [
+  // Laptops
+  { type: "Laptop", brand: "Dell", model: "Inspiron 15", price: 70000, warranty: "2 years" },
+  { type: "Laptop", brand: "HP", model: "Pavilion 14", price: 65000, warranty: "1 year" },
+  { type: "Laptop", brand: "Apple", model: "MacBook Air", price: 120000, warranty: "1 year" },
+  { type: "Laptop", brand: "Lenovo", model: "ThinkPad X1", price: 95000, warranty: "2 years" },
+  { type: "Laptop", brand: "Asus", model: "VivoBook 15", price: 55000, warranty: "1 year" },
+
+  // Mobiles
+  { type: "Mobile", brand: "Samsung", model: "Galaxy S21", price: 50000, battery: "4000mAh" },
+  { type: "Mobile", brand: "Apple", model: "iPhone 13", price: 95000, battery: "3095mAh" },
+  { type: "Mobile", brand: "OnePlus", model: "9 Pro", price: 60000, battery: "4500mAh" },
+  { type: "Mobile", brand: "Xiaomi", model: "Redmi Note 11", price: 15000, battery: "5000mAh" },
+  { type: "Mobile", brand: "Realme", model: "GT Neo 3", price: 30000, battery: "4500mAh" },
+
+  // Watches
+  { type: "Watch", brand: "Apple", model: "Watch Series 7", price: 35000, waterproof: true, color: "Black" },
+  { type: "Watch", brand: "Samsung", model: "Galaxy Watch 4", price: 25000, waterproof: true, color: "Silver" },
+  { type: "Watch", brand: "Fossil", model: "Gen 6", price: 20000, waterproof: false, color: "Brown" },
+  { type: "Watch", brand: "Garmin", model: "Fenix 6", price: 45000, waterproof: true, color: "Black" },
+  { type: "Watch", brand: "Titan", model: "Octane", price: 8000, waterproof: false, color: "Blue" },
+
+  // Batteries
+  { type: "Battery", brand: "Amaron", capacity: "12V 70Ah", price: 8000, warranty: "1 year" },
+  { type: "Battery", brand: "Exide", capacity: "12V 65Ah", price: 7500, warranty: "1 year" },
+  { type: "Battery", brand: "Luminous", capacity: "12V 100Ah", price: 12000, warranty: "2 years" },
+  { type: "Battery", brand: "Okaya", capacity: "12V 80Ah", price: 9000, warranty: "1 year" },
+  { type: "Battery", brand: "SF Sonic", capacity: "12V 60Ah", price: 7000, warranty: "1 year" }
+];
+
+const separatedGadget = Object.groupBy(products, gadget => {
+  switch(gadget.type) {
+    case "Laptop":
+      return gadget.price > 70000 && "Laptop";
+      break
+    case "Mobile":
+      return gadget.price >= 95000 && "Mobile";
+      break
+    case "Watch":
+      return gadget.price > 35000 && "Watch";
+      break
+    case "Battery":
+      return gadget.price > 10000 && "Battery";
+      break
+    default:
+      return "backDated";
+  }
+});
+
+for (let key in separatedGadget) {
+  if (key === "false") delete separatedGadget[key];
+}
+console.log(separatedGadget)
