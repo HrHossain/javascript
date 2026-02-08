@@ -314,3 +314,42 @@ student.death ??= !student.name
 student.name = "mofa 221"
 student.death = false
 console.log(student)
+
+
+const valve = [
+["apples", 300],
+["pears", 900],
+["bananas", 500]
+];
+const newValve = Object.fromEntries(valve)
+console.log(newValve)
+
+const hero1 = {
+    firstName:"Jhon",
+    lastName:"Doe",
+    age:50,
+    eyeColor:"blue"
+}
+const hero2 = {firstName:"Anne",lastName:"Smith"}
+const hero3 = {
+    getFullname:() => this.firstName + " " +this.lastName
+}
+const newHero = Object.assign(hero1,hero2,hero3)
+console.log(hero1.getFullname())
+console.log(Object.values(hero1))
+console.log(Object.keys(hero1))
+
+const banglaFruits = [
+  {name:"apples", quantity:300},
+  {name:"bananas", quantity:500},
+  {name:"oranges", quantity:200},
+  {name:"kiwi", quantity:150}
+]
+
+function canIBuy(obj){
+    return obj.quantity > 200 ? "ok" : "low"
+}
+
+let sexx = Object.groupBy(banglaFruits,canIBuy)
+
+console.log(sexx)
