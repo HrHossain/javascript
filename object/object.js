@@ -390,7 +390,7 @@ const separatedGadget = Object.groupBy(products, gadget => {
       return gadget.price > 70000 && "Laptop";
       break
     case "Mobile":
-      return gadget.price >= 95000 && "Mobile";
+      return gadget.price >=  95000 && "Mobile";
       break
     case "Watch":
       return gadget.price > 35000 && "Watch";
