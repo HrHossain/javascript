@@ -118,3 +118,47 @@ const fsl = createUniqueCaller((par1,par2)=>{
 fsl("/home",1)
 fsl("/home",1)
 fsl("/home",2)
+
+
+const compose = (...fns) => (x) => fns.reduce((acc,fn) => fn(acc),x)
+const add5 = x => x + 5;
+const multifly3 = x => x * 3;
+const substract2 = x => x - 2;
+const calculate = compose(add5,multifly3,substract2) 
+console.log(calculate(10))
+
+// revealing module pattern
+
+const counter = (function(){
+    let count = 0
+    function increment(){
+        return ++count
+    }
+    function getTotalUser(){
+        return count
+    }
+
+    return{
+        increment,
+        getTotalUser
+    }
+})()
+counter.increment()
+counter.increment()
+counter.increment()
+console.log(counter.getTotalUser())
+
+function integrate3xSinY(x) {
+  let sum = 0;
+  let step = 0.01; // small step for accuracy
+
+  for (let y = 0; y <= 360; y += step) {
+    let rad = y * Math.PI / 180; // degree → radian
+    sum += 3 * x * Math.sin(rad) * step;
+    
+  }
+
+  return (sum);
+}
+
+console.log(integrate3xSinY(0.5)); // ≈ 0
